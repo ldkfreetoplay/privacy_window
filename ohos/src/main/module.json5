@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "privacy_window",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}
