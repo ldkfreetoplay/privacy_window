@@ -11,12 +11,12 @@ class MethodChannelPrivacyWindow extends PrivacyWindowPlatform {
 
   @override
   setPrivacyWindow() async {
-    await methodChannel.invokeMethod<String>('setPrivacyWindow');
+    await methodChannel.invokeMethod('setPrivacyWindow');
   }
 
   @override
   unSetPrivacyWindow() async {
-    await methodChannel.invokeMethod<String>('unSetPrivacyWindow');
+    await methodChannel.invokeMethod('unSetPrivacyWindow');
   }
 
 }
