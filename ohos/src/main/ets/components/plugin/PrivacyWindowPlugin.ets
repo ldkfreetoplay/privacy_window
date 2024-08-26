@@ -34,9 +34,9 @@ export default class PrivacyWindowPlugin implements FlutterPlugin, MethodCallHan
 
   onMethodCall(call: MethodCall, result: MethodResult): void {
     if (call.method == "setPrivacyWindow") {
-      this.setPrivateWindow();
+      this.setPrivateWindow(result);
     } else if (call.method == "unSetPrivacyWindow") {
-      this.unSetPrivateWindow();
+      this.unSetPrivateWindow(result);
     } else {
       result.notImplemented()
     }
@@ -46,10 +46,11 @@ export default class PrivacyWindowPlugin implements FlutterPlugin, MethodCallHan
     let context = getContext(this) as common.UIAbilityContext;
     return new Promise((resolve, reject) => {
       window.getLastWindow(context as common.UIAbilityContext, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
+        if (data != null) {
           resolve(data);
+        } else {
+          console.error('Failed to get main window');
+          reject(err);
         }
       });
     });
@@ -59,19 +60,21 @@ export default class PrivacyWindowPlugin implements FlutterPlugin, MethodCallHan
     this.getMainWindow()
       .then(windowClass => {
         windowClass.setWindowPrivacyMode(isPrivacyMode, (err: BusinessError) => {
-          if (err) {
-            throw new Error(`Failed to set the window to privacy mode. Error code: ${err.code}, Details: ${JSON.stringify(err)}`);
+          const errCode: number = err.code;
+          if(errCode) {
+            console.error('Failed to set the window to privacy mode');
           }
-          console.info('Succeeded in setting the window to privacy mode.');
         });
       })
   }
 
-  setPrivateWindow(): void {
+  setPrivateWindow(result: MethodResult): void {
     this.setWindowPrivacyMode(true);
+    result.success(0);
   }
 
-  unSetPrivateWindow(): void {
+  unSetPrivateWindow(result: MethodResult): void {
     this.setWindowPrivacyMode(false);
+    result.success(0);
   }
 }
