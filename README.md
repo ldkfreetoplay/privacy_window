@@ -12,6 +12,21 @@
 
 # example
 
+首先需要添加权限，在ohos项目的module 文件里面的requestPermissions添加上ohos.permission.PRIVACY_WINDOW
+
+``` json
+    //...
+     "requestPermissions": [
+      //...
+      {
+        "name": "ohos.permission.PRIVACY_WINDOW"
+      }
+      //...
+    ]
+  //...
+```
+
+
 ``` dart
 import 'package:privacy_window/privacy_window.dart';
 
